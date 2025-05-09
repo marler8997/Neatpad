@@ -1,0 +1,10 @@
+.{
+    .name = .Neatpad,
+    .fingerprint = 0xf3a6b17284043348,
+    .version = "0.0.0",
+    .minimum_zig_version = "0.14.0",
+    .dependencies = .{},
+    .paths = .{
+        ".",
+    },
+}

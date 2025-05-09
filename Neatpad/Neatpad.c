@@ -5,7 +5,6 @@
 //	Written by J Brown 2004
 //
 #define _CRT_SECURE_NO_DEPRECATE
-#define _WIN32_WINNT 0x501
 #define STRICT
 
 
@@ -14,7 +13,7 @@
 #include <commctrl.h>
 #include <uxtheme.h>
 #include "Neatpad.h"
-#include "..\TextView\TextView.h"
+#include "../TextView/TextView.h"
 #include "resource.h"
 
 #if !defined(UNICODE)

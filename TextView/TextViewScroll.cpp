@@ -9,6 +9,8 @@
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include <algorithm>
+
 #include <windows.h>
 #include <tchar.h>
 #include "TextView.h"
@@ -81,8 +83,8 @@ LONG TextView::OnSize(UINT nFlags, int width, int height)
 {
 	int margin = LeftMarginWidth();
 
-	m_nWindowLines   = min((unsigned)height		/ m_nLineHeight, m_nLineCount);
-	m_nWindowColumns = min((width - margin)		/ m_nFontWidth,  m_nLongestLine);
+	m_nWindowLines   = std::min<ULONG>((unsigned)height		/ m_nLineHeight, m_nLineCount);
+	m_nWindowColumns = std::min<int>((width - margin)		/ m_nFontWidth,  m_nLongestLine);
 
 	if(PinToBottomCorner())
 	{
@@ -117,13 +119,13 @@ HRGN TextView::ScrollRgn(int dx, int dy, bool fReturnUpdateRgn)
 	// scroll up
 	if(dy < 0)
 	{
-		dy = -(int)min((ULONG)-dy, m_nVScrollPos);
+		dy = -(int)std::min((ULONG)-dy, m_nVScrollPos);
 		clip.top = -dy * m_nLineHeight;
 	}
 	// scroll down
 	else if(dy > 0)
 	{
-		dy = min((ULONG)dy, m_nVScrollMax-m_nVScrollPos);
+		dy = std::min((ULONG)dy, m_nVScrollMax-m_nVScrollPos);
 		clip.bottom = (m_nWindowLines -dy) * m_nLineHeight;
 	}
 
@@ -131,13 +133,13 @@ HRGN TextView::ScrollRgn(int dx, int dy, bool fReturnUpdateRgn)
 	// scroll left
 	if(dx < 0)
 	{
-		dx = -(int)min(-dx, m_nHScrollPos);
+		dx = -(int)std::min(-dx, m_nHScrollPos);
 		clip.left = -dx * m_nFontWidth * 4;
 	}
 	// scroll right
 	else if(dx > 0)
 	{
-		dx = min((unsigned)dx, (unsigned)m_nHScrollMax-m_nHScrollPos);
+		dx = std::min((unsigned)dx, (unsigned)m_nHScrollMax-m_nHScrollPos);
 		clip.right = (m_nWindowColumns - dx - 4) * m_nFontWidth ;
 	}
 

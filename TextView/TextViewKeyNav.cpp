@@ -9,6 +9,8 @@
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include <algorithm>
+
 #include <windows.h>
 #include <tchar.h>
 #include "TextView.h"
@@ -55,7 +57,7 @@ VOID TextView::MoveLineUp(int numLines)
 	int				  charPos;
 	BOOL			  trailing;
 
-	m_nCurrentLine -= min(m_nCurrentLine, (unsigned)numLines);
+	m_nCurrentLine -= std::min(m_nCurrentLine, (ULONG)numLines);
 
 	// get Uniscribe data for prev line
 	uspData = GetUspData(0, m_nCurrentLine, &lineOffset);
@@ -77,7 +79,7 @@ VOID TextView::MoveLineDown(int numLines)
 	int				  charPos;
 	BOOL			  trailing;
 
-	m_nCurrentLine += min(m_nLineCount-m_nCurrentLine-1, (unsigned)numLines);
+	m_nCurrentLine += std::min(m_nLineCount-m_nCurrentLine-1, (ULONG)numLines);
 
 	// get Uniscribe data for prev line
 	uspData = GetUspData(0, m_nCurrentLine, &lineOffset);

@@ -9,6 +9,8 @@
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include <algorithm>
+
 #include <windows.h>
 #include <tchar.h>
 #include "TextView.h"
@@ -46,8 +48,8 @@ VOID TextView::RecalcLineHeight()
 		int fontheight = m_uspFontList[i].tm.tmHeight + 
 						 m_uspFontList[i].tm.tmExternalLeading;
 
-		m_nLineHeight = max(m_nLineHeight, fontheight);
-		m_nMaxAscent  = max(m_nMaxAscent, m_uspFontList[i].tm.tmAscent);
+		m_nLineHeight = std::max<int>(m_nLineHeight, fontheight);
+		m_nMaxAscent  = std::max<int>(m_nMaxAscent, m_uspFontList[i].tm.tmAscent);
 	}
 
 	// add on the above+below spacings

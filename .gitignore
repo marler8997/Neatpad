@@ -28,3 +28,6 @@ Unicode_Release/
 Debug/
 Release/
 ipch/
+
+.zig-cache/
+zig-out/

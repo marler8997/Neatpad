@@ -9,6 +9,8 @@
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include <algorithm>
+
 #include <windows.h>
 #include <tchar.h>
 #include "TextView.h"
@@ -22,8 +24,8 @@
 //
 ULONG TextView::EnterText(TCHAR *szText, ULONG nLength)
 {
-	ULONG selstart = min(m_nSelectionStart, m_nSelectionEnd);
-	ULONG selend   = max(m_nSelectionStart, m_nSelectionEnd);
+	ULONG selstart = std::min(m_nSelectionStart, m_nSelectionEnd);
+	ULONG selend   = std::max(m_nSelectionStart, m_nSelectionEnd);
 
 	BOOL  fReplaceSelection = (selstart == selend) ? FALSE : TRUE;
 	ULONG erase_len = nLength;
@@ -108,8 +110,8 @@ ULONG TextView::EnterText(TCHAR *szText, ULONG nLength)
 
 BOOL TextView::ForwardDelete()
 {
-	ULONG selstart = min(m_nSelectionStart, m_nSelectionEnd);
-	ULONG selend   = max(m_nSelectionStart, m_nSelectionEnd);
+	ULONG selstart = std::min(m_nSelectionStart, m_nSelectionEnd);
+	ULONG selend   = std::max(m_nSelectionStart, m_nSelectionEnd);
 
 	if(selstart != selend)
 	{
@@ -164,8 +166,8 @@ BOOL TextView::ForwardDelete()
 
 BOOL TextView::BackDelete()
 {
-	ULONG selstart = min(m_nSelectionStart, m_nSelectionEnd);
-	ULONG selend   = max(m_nSelectionStart, m_nSelectionEnd);
+	ULONG selstart = std::min(m_nSelectionStart, m_nSelectionEnd);
+	ULONG selend   = std::max(m_nSelectionStart, m_nSelectionEnd);
 
 	// if there's a selection then delete it
 	if(selstart != selend)

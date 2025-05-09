@@ -104,7 +104,7 @@ public:
 	}
 
 	// assignment operator
-	TextIterator & operator= (TextIterator &ti)
+	TextIterator & operator= (const TextIterator &ti)
 	{
 		text_doc  = ti.text_doc;
 		off_bytes = ti.off_bytes;

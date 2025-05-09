@@ -5,9 +5,10 @@
 //
 //	NOTES:		www.catch22.net
 //
-#define _WIN32_WINNT 0x501
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
+
+#include <algorithm>
 
 #include <windows.h>
 #include <tchar.h>
@@ -309,8 +310,8 @@ LINEINFO* TextView::GetLineInfo(ULONG nLineNo)
 
 ULONG TextView::SelectionSize()
 {
-	ULONG s1 = min(m_nSelectionStart, m_nSelectionEnd); 
-	ULONG s2 = max(m_nSelectionStart, m_nSelectionEnd); 
+	ULONG s1 = std::min(m_nSelectionStart, m_nSelectionEnd);
+	ULONG s2 = std::max(m_nSelectionStart, m_nSelectionEnd);
 	return s2 - s1;
 }
 
@@ -516,7 +517,7 @@ LRESULT WINAPI TextViewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		if((ptv = new TextView(hwnd)) == 0)
 			return FALSE;
 
-		SetWindowLongPtr(hwnd, 0, (LONG)ptv);
+		SetWindowLongPtr(hwnd, 0, (LONG_PTR)ptv);
 		return TRUE;
 
 	// Last message received by any window - delete the TextView object

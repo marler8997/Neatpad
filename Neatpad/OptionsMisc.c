@@ -75,7 +75,7 @@ void ApplyAdminSettings(HWND hwnd)
 //
 //	Dialogbox procedure for the FONT pane
 //
-BOOL CALLBACK MiscOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK MiscOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PSHNOTIFY *pshn;
 	HICON hShield;

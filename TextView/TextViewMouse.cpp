@@ -9,6 +9,8 @@
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include <algorithm>
+
 #include <windows.h>
 #include <tchar.h>
 #include "TextView.h"
@@ -553,8 +555,8 @@ LONG TextView::InvalidateLine(ULONG nLineNo, bool forceAnalysis)
 //
 LONG TextView::InvalidateRange(ULONG nStart, ULONG nFinish)
 {
-	ULONG start  = min(nStart, nFinish);
-	ULONG finish = max(nStart, nFinish);
+	ULONG start  = std::min(nStart, nFinish);
+	ULONG finish = std::max(nStart, nFinish);
 	
 	int   ypos;
 	RECT  rect;

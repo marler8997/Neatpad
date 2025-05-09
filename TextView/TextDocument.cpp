@@ -9,6 +9,8 @@
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include <algorithm>
+
 #include <windows.h>
 #include "TextDocument.h"
 #include "TextView.h"
@@ -200,7 +202,7 @@ int TextDocument::getchar(ULONG offset, ULONG lenbytes, ULONG *pch32)
 //	BYTE	*rawdata   = (BYTE *)(buffer + offset + m_nHeaderSize);
 	BYTE	rawdata[16];
 
-	lenbytes = min(16, lenbytes);
+	lenbytes = std::min<ULONG>(16, lenbytes);
 	m_seq.render(offset+ m_nHeaderSize, rawdata, lenbytes);
 
 #ifdef UNICODE
@@ -273,7 +275,7 @@ ULONG TextDocument::gettext(ULONG offset, ULONG lenbytes, TCHAR *buf, ULONG *buf
 	while(lenbytes > 0 && *buflen > 0)
 	{
 		BYTE   rawdata[0x100];
-		size_t rawlen = min(lenbytes, 0x100);
+		size_t rawlen = std::min<ULONG>(lenbytes, 0x100);
 
 		// get next block of data from the piece-table
 		m_seq.render(offset + m_nHeaderSize, rawdata, rawlen);
@@ -743,7 +745,7 @@ size_t TextDocument::utf16_to_rawdata(TCHAR *utf16str, size_t utf16len, BYTE *ra
 ULONG TextDocument::insert_raw(ULONG offset_bytes, TCHAR *text, ULONG length)
 {
 	BYTE  buf[0x100];
-	ULONG buflen;
+	size_t buflen;
 	ULONG copied;
 	ULONG rawlen = 0;
 	ULONG offset = offset_bytes+ m_nHeaderSize;
@@ -751,7 +753,7 @@ ULONG TextDocument::insert_raw(ULONG offset_bytes, TCHAR *text, ULONG length)
 	while(length)
 	{
 		buflen = 0x100;
-		copied = utf16_to_rawdata(text, length, buf, (size_t *)&buflen);
+		copied = utf16_to_rawdata(text, length, buf, &buflen);
 
 		// do the piece-table insertion!
 		if(!m_seq.insert(offset, buf, buflen))
@@ -862,7 +864,7 @@ ULONG TextDocument::count_chars(ULONG offset_bytes, ULONG length_chars)
 	while(length_chars && offset_bytes < m_nDocLength_bytes)
 	{
 		TCHAR buf[0x100];
-		ULONG charlen = min(length_chars, 0x100);
+		ULONG charlen = std::min<ULONG>(length_chars, 0x100);
 		ULONG bytelen;
 
 		bytelen = gettext(offset_bytes, m_nDocLength_bytes - offset_bytes, buf, &charlen);

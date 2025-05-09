@@ -9,6 +9,8 @@
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include <algorithm>
+
 #include <windows.h>
 #include <tchar.h>
 #include "TextView.h"
@@ -506,8 +508,8 @@ int TextView::ApplyTextAttributes(ULONG nLineNo, ULONG nOffset, ULONG &nColumn, 
 {
 	int i;
 
-	ULONG selstart = min(m_nSelectionStart, m_nSelectionEnd);
-	ULONG selend   = max(m_nSelectionStart, m_nSelectionEnd);
+	ULONG selstart = std::min(m_nSelectionStart, m_nSelectionEnd);
+	ULONG selend   = std::max(m_nSelectionStart, m_nSelectionEnd);
 
 	//
 	//	STEP 1. Apply the "base coat"

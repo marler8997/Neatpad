@@ -31,7 +31,21 @@ public:
 	class			buffer_control;
 	class			iterator;
 	class			ref;
-	enum			action;
+
+//
+//	sequence::action
+//
+//	enumeration of the type of 'edit actions' our sequence supports.
+//	only important when we try to 'optimize' repeated operations on the
+//	sequence by coallescing them into a single span.
+//
+enum action
+{
+	action_invalid,
+	action_insert,
+	action_erase,
+	action_replace
+};
 
 public:
 
@@ -163,21 +177,6 @@ private:
 
 };
 
-
-//
-//	sequence::action
-//
-//	enumeration of the type of 'edit actions' our sequence supports.
-//	only important when we try to 'optimize' repeated operations on the
-//	sequence by coallescing them into a single span.
-//
-enum sequence::action
-{ 
-	action_invalid, 
-	action_insert, 
-	action_erase, 
-	action_replace 
-};
 
 //
 //	sequence::span

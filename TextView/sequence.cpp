@@ -6,6 +6,8 @@
 	Copyright J Brown 1999-2006
 	www.catch22.net
 */
+#include <algorithm>
+
 #include <windows.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -42,8 +44,8 @@ void debug(const char *fmt, ...)
 }
 
 #else
-#define debug
-#define odebug
+#define debug(...)
+#define odebug(...)
 #endif
 
 
@@ -154,7 +156,7 @@ void sequence::debug1 ()
 	for(sptr = head; sptr; sptr = sptr->next)
 	{
 		char *buffer = (char *)buffer_list[sptr->buffer]->buffer;
-		printf("%.*s", sptr->length, buffer + sptr->offset);
+		printf("%.*s", (int)sptr->length, buffer + sptr->offset);
 	}
 
 	printf("\n");
@@ -169,9 +171,9 @@ void sequence::debug2 ()
 	{
 		char *buffer = (char *)buffer_list[sptr->buffer]->buffer;
 		
-		printf("[%d] [%4d %4d] %.*s\n", sptr->id, 
+		printf("[%d] [%4lu %4lu] %.*s\n", sptr->id, 
 			sptr->offset, sptr->length,
-			sptr->length, buffer + sptr->offset);
+			(int)sptr->length, buffer + sptr->offset);
 	}
 
 	printf("-------------------------\n");
@@ -180,9 +182,9 @@ void sequence::debug2 ()
 	{
 		char *buffer = (char *)buffer_list[sptr->buffer]->buffer;
 		
-		printf("[%d] [%4d %4d] %.*s\n", sptr->id, 
+		printf("[%d] [%4lu %4lu] %.*s\n", sptr->id, 
 			sptr->offset, sptr->length,
-			sptr->length, buffer + sptr->offset);
+			(int)sptr->length, buffer + sptr->offset);
 	}
 
 	printf("**********************\n");
@@ -190,10 +192,10 @@ void sequence::debug2 ()
 	for(sptr = head; sptr; sptr = sptr->next)
 	{
 		char *buffer = (char *)buffer_list[sptr->buffer]->buffer;
-		printf("%.*s", sptr->length, buffer + sptr->offset);
+		printf("%.*s", (int)sptr->length, buffer + sptr->offset);
 	}
 
-	printf("\nsequence length = %d chars\n", sequence_length);
+	printf("\nsequence length = %lu chars\n", sequence_length);
 	printf("\n\n");
 }
 
@@ -815,7 +817,7 @@ bool sequence::erase_worker (size_w index, size_w length, action act)
 			frag2 = newspans.last;
 		}
 
-		removelen -= min(removelen, (sptr->length - remoffset));
+		removelen -= std::min(removelen, (sptr->length - remoffset));
 
 		// archive the span we are going to replace
 		oldspans.append(sptr);
@@ -839,7 +841,7 @@ bool sequence::erase_worker (size_w index, size_w length, action act)
 			frag2 = newspans.last;
 		}
 
-		removelen -= min(removelen, sptr->length);
+		removelen -= std::min(removelen, sptr->length);
 
 		// archive the span we are replacing
 		oldspans.append(sptr);
@@ -914,7 +916,7 @@ bool sequence::replace(size_w index, const seqchar *buf, size_w length, size_w e
 
 	// for a "replace" which will overrun the sequence, make sure we 
 	// only delete up to the end of the sequence
-	remlen = min(sequence_length - index, erase_length);
+	remlen = std::min(sequence_length - index, erase_length);
 
 	// combine the erase+insert actions together
 	group();
@@ -1048,7 +1050,7 @@ size_w sequence::render(size_w index, seqchar *dest, size_w length) const
 	// copy each span's referenced data in succession
 	while(length && sptr != tail)
 	{
-		size_w copylen   = min(sptr->length - spanoffset, length);
+		size_w copylen   = std::min(sptr->length - spanoffset, length);
 		seqchar *source  = buffer_list[sptr->buffer]->buffer;
 
 		memcpy(dest, source + sptr->offset + spanoffset, copylen * sizeof(seqchar));

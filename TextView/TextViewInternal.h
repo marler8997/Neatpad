@@ -16,7 +16,7 @@ HRESULT (WINAPI * DrawThemeBackground_Proc)(HTHEME hTheme, HDC hdc, int, int, co
 
 #include "TextDocument.h"
 
-#include "..\UspLib\usplib.h"
+#include "../UspLib/usplib.h"
 
 typedef struct
 {

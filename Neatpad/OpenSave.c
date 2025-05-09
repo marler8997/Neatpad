@@ -9,7 +9,6 @@
 //
 #define _CRT_SECURE_NO_DEPRECATE
 #define _CRT_NON_CONFORMING_SWPRINTFS
-#define _WIN32_WINNT 0x501
 #define STRICT
 
 #include <windows.h>
@@ -18,7 +17,7 @@
 #include <stdarg.h>
 #include <commctrl.h>
 #include "Neatpad.h"
-#include "..\TextView\TextView.h"
+#include "../TextView/TextView.h"
 #include "resource.h"
 
 static BOOL g_fFirstTime = TRUE;
@@ -31,8 +30,9 @@ typedef struct
 	UINT	uMsg;
 } NOTIFY_DATA;
 
-DWORD WINAPI ChangeNotifyThread(NOTIFY_DATA *pnd)
+DWORD WINAPI ChangeNotifyThread(void *threadParam)
 {
+	NOTIFY_DATA *pnd = (NOTIFY_DATA*)threadParam;
 	HANDLE hChange;
 	DWORD  dwResult;
 	TCHAR  szDirectory[MAX_PATH];

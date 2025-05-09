@@ -1,0 +1,7 @@
+LIBRARY SCRNSAVE.DLL
+EXPORTS
+    DefScreenSaverProc
+    ScreenSaverChangePassword
+    RegisterDialogClasses
+    ScreenSaverConfigureDialog
+    ScreenSaverProc

@@ -5,14 +5,13 @@
 //	Written by J Brown 2004
 //
 #define _CRT_SECURE_NO_DEPRECATE
-#define _WIN32_WINNT 0x501
 #define STRICT
 
 #include <windows.h>
 #include <tchar.h>
 #include <commctrl.h>
 #include "Neatpad.h"
-#include "..\TextView\TextView.h"
+#include "../TextView/TextView.h"
 #include "resource.h"
 
 extern HWND g_hwndSearchDlg;
@@ -30,7 +29,7 @@ extern HWND g_hwndSearchBar;
 
 HWND g_hwndFindPane[MAX_FIND_PANES];
 
-BOOL CALLBACK FindHexDlg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK FindHexDlg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg)
 	{
@@ -135,7 +134,7 @@ void AddSearchTabs(HWND hwnd)
 //	ShowWindow(g_hwndFindPane[0], SW_SHOW);
 }
 
-BOOL CALLBACK SearchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	NMHDR *nmhdr;
 	static BOOL fMouseDown = FALSE;

@@ -11,6 +11,8 @@
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include <algorithm>
+
 #include <windows.h>
 #include <tchar.h>
 #include "TextView.h"
@@ -82,7 +84,7 @@ ULONG TextView::GetText(TCHAR *szDest, ULONG nStartOffset, ULONG nLength)
 //
 BOOL TextView::OnCopy()
 {
-	ULONG	selstart	= min(m_nSelectionStart, m_nSelectionEnd);
+	ULONG	selstart	= std::min(m_nSelectionStart, m_nSelectionEnd);
 	ULONG	sellen		= SelectionSize();
 	BOOL	success		= FALSE;
 
